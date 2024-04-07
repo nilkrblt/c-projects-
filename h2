@@ -1,0 +1,168 @@
+#include <stdio.h>
+#include <math.h>
+
+#define MAX 10
+float mem [2* MAX ];
+int count=0;
+
+void print();
+void push(float,float);
+void pop();
+void sort();
+void print_polar;
+
+
+int main()
+{
+   push(2,2);
+   push(1,1);
+   push(1,-1);
+   print_polar();
+   sort_polar();
+   print_polar();
+return 0;
+}
+   
+
+
+
+
+
+
+
+
+
+void print()
+{
+  for(int i=0;i<2*count; i=i+2)
+  {
+      printf("%f%+fi",mem[i],mem[i+1]);
+  }
+  printf("\n");
+}
+
+
+void print_polar()
+{   
+    for(int i=0;i<2*count;i=i+2)
+    {
+        printf("%f[%+f deg]", sqrtf(mem[i]*mem[i]*mem[i+1]*mem[i+1]),(180/M_PI)*atan2f(mem[i+1],mem[i]));
+    }
+    printf("\n");
+}
+
+
+void push(float re, float im)
+{
+   if(2*count<2*MAX)
+   { 
+      mem[2*count]=re;
+      mem[2*count+1]=im;
+      count++;
+   }
+}
+     
+
+void pop()
+{
+     if(count>0)
+     {
+        count--;
+        mem[2*count+0]=0;
+        mem[2*count+1]=0;
+     }
+     
+}
+
+
+void sort()
+{
+     float temp1, temp2;
+     float r1,r2,i1,i2;
+     for(int i=0; i<count; i++)
+     {
+         r1=mem[2*i+0];
+         i1=mem[2*i+1];
+         for(int j=i+1; j<count; j++)
+         {
+            r2=mem[2*j+0];
+            i2=mem[2*j+1];
+            if(r1>r2)
+            {
+               temp1=mem[2*i+0];
+               temp2=mem[2*i+1];
+               mem[2*i+0]=r2;
+               mem[2*i+1]=i2;
+               mem[2*j+0]=temp1;
+               mem[2*j*1]=temp2;
+            }
+            else if(r1==r2)
+            {
+                 if(i1>i2)
+                 {
+                     temp1=mem[2*i+0];
+                     temp2=mem[2*i+1];
+                     mem[2*i+0]=r2;
+                     mem[2*i+1]=i2;
+                     mem[2*j+0]=temp1;
+                     mem[2*j+1]=temp2; 
+}
+}
+}
+}
+}
+
+void sort_polar()
+{
+     float temp1, temp2;
+     float r1,r2,th1,th2;
+     for(int i=0; i<count; i++)
+     {
+         r1=sqrtf(mem[2*i+0]*mem[2*i+0]+mem[2*i+1];
+
+         i1=mem[2*i+1];
+         for(int j=i+1; j<count; j++)
+         {
+            r2=mem[2*j+0];
+            i2=mem[2*j+1];
+            if(r1>r2)
+            {
+               temp1=mem[2*i+0];
+               temp2=mem[2*i+1];
+               mem[2*i+0]=r2;
+               mem[2*i+1]=i2;
+               mem[2*j+0]=temp1;
+               mem[2*j*1]=temp2;
+            }
+            else if(r1==r2)
+            {
+                 if(i1>i2)
+                 {
+                     temp1=mem[2*i+0];
+                     temp2=mem[2*i+1];
+                     mem[2*i+0]=r2;
+                     mem[2*i+1]=i2;
+                     mem[2*j+0]=temp1;
+                     mem[2*j+1]=temp2; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
