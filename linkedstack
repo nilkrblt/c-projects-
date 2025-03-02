@@ -1,23 +1,90 @@
-# include < stdio .h >
-// ***************************************
-typedef struct sNode Node ;
-typedef struct sStack
-{
-Node * head ;
-} Stack ;
-void push ( Stack * s ,int val ) ;
-int pop ( Stack * s ) ;
-void print ( Stack * s );
-// ***************************************
-int str2num ( char * str ) ;
-int interpret ( Stack * s , const char * str ) ;
-// ***************************************
-Stack stack ={. head = NULL };
-int main ()
-{
-const char * str = " 1 5 + 6 3 - / 7 *" ;
-// const char * str =" 10 20 + 2 * 15 - 2 1 * /";
-int result = interpret (& stack , str ) ;
-printf ( " Result :% d \ n" , result ) ;
-return 0;
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+// Node structure for Stack
+typedef struct sNode {
+    int data;
+    struct sNode* next;
+} Node;
+
+// Stack structure
+typedef struct sStack {
+    Node* head;
+} Stack;
+
+// Function prototypes
+void push(Stack* s, int val);
+int pop(Stack* s);
+void print(Stack* s);
+int str2num(char* str);
+int interpret(Stack* s, const char* str);
+
+// Initialize stack
+tatic Stack stack = {.head = NULL};
+
+// Push function
+void push(Stack* s, int val) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = val;
+    newNode->next = s->head;
+    s->head = newNode;
+}
+
+// Pop function
+int pop(Stack* s) {
+    if (s->head == NULL) {
+        printf("Stack underflow!\n");
+        return 0;
+    }
+    Node* temp = s->head;
+    int val = temp->data;
+    s->head = temp->next;
+    free(temp);
+    return val;
+}
+
+// Print stack (for debugging)
+void print(Stack* s) {
+    Node* temp = s->head;
+    while (temp) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Convert string to number
+int str2num(char* str) {
+    return atoi(str);
+}
+
+// Interpret postfix expression
+int interpret(Stack* s, const char* str) {
+    char* token = strtok(strdup(str), " ");
+    while (token) {
+        if (isdigit(token[0])) {
+            push(s, str2num(token));
+        } else {
+            int b = pop(s);
+            int a = pop(s);
+            switch (token[0]) {
+                case '+': push(s, a + b); break;
+                case '-': push(s, a - b); break;
+                case '*': push(s, a * b); break;
+                case '/': push(s, b ? a / b : 0); break;
+            }
+        }
+        token = strtok(NULL, " ");
+    }
+    return pop(s);
+}
+
+// Main function
+int main() {
+    const char* str = "1 5 + 6 3 - / 7 *";
+    int result = interpret(&stack, str);
+    printf("Result: %d\n", result);
+    return 0;
 }
